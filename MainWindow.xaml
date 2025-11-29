@@ -1,0 +1,175 @@
+﻿<Window x:Class="TimeTrackerApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimeTrackerApp"
+        mc:Ignorable="d"
+        Title="Time Tracker" Height="600" Width="1000">
+    <Grid Margin="10">
+        <TabControl>
+            <TabItem Header="Timer">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                        <TextBlock Text="Client:" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="cbClientsTimer" Width="250" Margin="10 0 0 0"
+                                  ItemsSource="{Binding Clients}"
+                                  DisplayMemberPath="Name"
+                                  SelectedItem="{Binding SelectedClient}">
+                        </ComboBox>
+                        <Button Content="Add New Client" Margin="10 0 0 0" Click="BtnAddClientFromTimer_Click"/>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 0 0 10">
+                        <TextBlock Text="Currency:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="txtCurrency" Width="50" Margin="5 0 0 0"
+                                 Text="{Binding TimerCurrency, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Hourly Rate:" Margin="20 0 0 0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="txtHourlyRate" Width="80" Margin="5 0 0 0"
+                                 Text="{Binding TimerHourlyRate, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 0 0 10">
+                        <Button x:Name="btnStart" Content="Start Work" Width="120" Click="BtnStart_Click"/>
+                        <Button x:Name="btnBreak" Content="Start Break" Width="120" Margin="10 0 0 0"
+                                Click="BtnBreak_Click"/>
+                        <Button x:Name="btnResume" Content="Resume" Width="120" Margin="10 0 0 0"
+                                Click="BtnResume_Click"/>
+                        <Button x:Name="btnStop" Content="Finish Work" Width="120" Margin="10 0 0 0"
+                                Click="BtnStop_Click"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3">
+                        <TextBlock Text="Session Status:" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding TimerStatus}" Margin="0 5 0 10"/>
+
+                        <TextBlock Text="Current Session Info:" FontWeight="Bold" Margin="0 10 0 0"/>
+                        <StackPanel Orientation="Vertical" Margin="0 5 0 0">
+                            <TextBlock Text="{Binding TimerDetails}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Clients">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <GroupBox Header="Clients" Margin="0 0 10 0">
+                        <ListBox x:Name="lbClients"
+                                 ItemsSource="{Binding Clients}"
+                                 SelectedItem="{Binding SelectedClient}"
+                                 DisplayMemberPath="Name"/>
+                    </GroupBox>
+
+                    <GroupBox Header="Details" Grid.Column="1">
+                        <Grid Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                                <TextBlock Text="Name:" Width="100" VerticalAlignment="Center"/>
+                                <TextBox Width="200" Text="{Binding ClientNameEdit, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0 0 0 10">
+                                <TextBlock Text="Type:" Width="100" VerticalAlignment="Center"/>
+                                <RadioButton Content="Company" GroupName="ClientType"
+                                             IsChecked="{Binding ClientIsCompanyEdit}"/>
+                                <RadioButton Content="Individual" GroupName="ClientType" Margin="10 0 0 0"
+                                             IsChecked="{Binding ClientIsIndividualEdit}"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0 0 0 10">
+                                <TextBlock Text="Currency:" Width="100" VerticalAlignment="Center"/>
+                                <TextBox Width="60"
+                                         Text="{Binding ClientCurrencyEdit, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0 0 0 10">
+                                <TextBlock Text="Hourly Rate:" Width="100" VerticalAlignment="Center"/>
+                                <TextBox Width="100"
+                                         Text="{Binding ClientHourlyRateEdit, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0 10 0 0">
+                                <Button Content="New" Width="80" Click="BtnClientNew_Click"/>
+                                <Button Content="Save" Width="80" Margin="10 0 0 0" Click="BtnClientSave_Click"/>
+                                <Button Content="Delete" Width="80" Margin="10 0 0 0" Click="BtnClientDelete_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Sessions / Export">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                        <TextBlock Text="Client:" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="cbClientsFilter" Width="200" Margin="5 0 10 0"
+                                  ItemsSource="{Binding Clients}"
+                                  DisplayMemberPath="Name"
+                                  SelectedItem="{Binding FilterClient}"/>
+
+                        <CheckBox Content="Companies only" Margin="0 0 10 0"
+                                  IsChecked="{Binding FilterCompaniesOnly}"/>
+                        <CheckBox Content="Individuals only" Margin="0 0 10 0"
+                                  IsChecked="{Binding FilterIndividualsOnly}"/>
+
+                        <TextBlock Text="From:" VerticalAlignment="Center"/>
+                        <DatePicker SelectedDate="{Binding FilterFromDate}" Width="130" Margin="5 0 10 0"/>
+
+                        <TextBlock Text="To:" VerticalAlignment="Center"/>
+                        <DatePicker SelectedDate="{Binding FilterToDate}" Width="130" Margin="5 0 10 0"/>
+
+                        <Button Content="Apply Filter" Click="BtnApplyFilter_Click"/>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="1"
+                              ItemsSource="{Binding FilteredSessions}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Date" Binding="{Binding StartTime, StringFormat=\{0:yyyy-MM-dd\}}"/>
+                            <DataGridTextColumn Header="Start" Binding="{Binding StartTime, StringFormat=\{0:HH:mm\}}"/>
+                            <DataGridTextColumn Header="End" Binding="{Binding EndTime, StringFormat=\{0:HH:mm\}}"/>
+                            <DataGridTextColumn Header="Break" Binding="{Binding BreakTimeFormatted}"/>
+                            <DataGridTextColumn Header="Worked" Binding="{Binding WorkedTimeFormatted}"/>
+                            <DataGridTextColumn Header="Pay" Binding="{Binding PayFormatted}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
+                        <Button Content="Export Filtered to CSV" Margin="0 0 10 0" Click="BtnExportFiltered_Click"/>
+                        <Button Content="Export All to CSV" Click="BtnExportAll_Click"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
